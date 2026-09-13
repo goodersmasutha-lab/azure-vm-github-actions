@@ -1,0 +1,76 @@
+name: Deploy Azure VM
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  RESOURCE_GROUP: rg-github-vm-demo
+  LOCATION: southafricanorth
+  VM_NAME: vm-github-demo
+  VM_SIZE: Standard_B2s
+  ADMIN_USERNAME: azureuser
+
+jobs:
+  deploy-vm:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Check Azure account
+        run: az account show
+
+      - name: Create Resource Group
+        run: |
+          az group create \
+            --name $RESOURCE_GROUP \
+            --location $LOCATION
+
+      - name: Create Virtual Machine
+        run: |
+          az vm create \
+            --resource-group $RESOURCE_GROUP \
+            --name $VM_NAME \
+            --image Ubuntu2204 \
+            --size $VM_SIZE \
+            --admin-username $ADMIN_USERNAME \
+            --generate-ssh-keys \
+            --public-ip-sku Standard
+
+      - name: Open SSH port
+        run: |
+          az vm open-port \
+            --resource-group $RESOURCE_GROUP \
+            --name $VM_NAME \
+            --port 22
+
+      - name: Get VM details
+        run: |
+          az vm show \
+            --resource-group $RESOURCE_GROUP \
+            --name $VM_NAME \
+            --show-details \
+            --output table
+
+      - name: Get Public IP
+        run: |
+          PUBLIC_IP=$(az vm show \
+            --resource-group $RESOURCE_GROUP \
+            --name $VM_NAME \
+            --show-details \
+            --query publicIps \
+            --output tsv)
+
+          echo "VM Public IP: $PUBLIC_IP"

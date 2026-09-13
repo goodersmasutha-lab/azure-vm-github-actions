@@ -38,7 +38,7 @@ jobs:
         with:
           client-id: 1b3d2222-73ee-41e7-8dba-ccd549aa2469
           tenant-id: c64cd139-e40e-4967-bc0b-1a72021890af
-          subscription-id: 866e1ea8-99e6-4279-b14e-6e271a396265
+          subscription-id: 80a31f80-0116-4fe0-acf5-ccaae10138a8
 
       - name: Provision Windows VM
         run: |

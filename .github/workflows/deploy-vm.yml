@@ -25,7 +25,7 @@ jobs:
           az group create --name rg-github-vm-demo --location southafricanorth
           az vm create \
             --resource-group rg-github-vm-demo \
-            --name vm-linux-demo12 \
+            --name vm-linux-demo8 \
             --image Ubuntu2204 \
             --admin-username azureuser \
             --generate-ssh-keys
@@ -45,7 +45,7 @@ jobs:
           az group create --name rg-github-vm-demo --location southafricanorth
           az vm create \
             --resource-group rg-github-vm-demo \
-            --name vm-windows-demo12 \
+            --name vm-windows-GM \
             --image Win2022Datacenter \
             --public-ip-sku Standard \
             --admin-username azureuser \

@@ -44,8 +44,8 @@ jobs:
         run: |
           az group create --name rg-github-vm-demo --location southafricanorth
           az vm create \
-            --resource-group rg-github-vm-de \
-            --name vm-windows-demo1 \
+            --resource-group rg-github-vm-demo \
+            --name vm-windows-de \
             --image Win2022Datacenter \
             --public-ip-sku Standard \
             --admin-username azureuser \

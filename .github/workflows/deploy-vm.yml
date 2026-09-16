@@ -22,7 +22,7 @@ jobs:
 
       - name: Provision Linux VM
         run: |
-          az group create --name rg-github-vm-demo --location southafricanorth
+          az group create --name rg-github-vm-demo --location southafricawest
           az vm create \
             --resource-group rg-github-vm-demo \
             --name vm-linux-demo \
